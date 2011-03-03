@@ -153,7 +153,7 @@ typedef enum { iType, jType, rType, specialType } InstructionType;
 typedef struct { 
 	char name[OP_NAME_LENGTH];
 	InstructionType type;
-	void (*operation)(&Instruction);
+	void *operation;
 
 } Operation;
 
@@ -161,7 +161,7 @@ typedef struct {
 /* TODO Task (g) add structure Function here */
 struct Function {
 	char name[FUNC_NAME_LENGTH];
-	void (*function)(&Instruction);
+	void *function;
 }
 
 
@@ -235,6 +235,8 @@ void initialize() {
 
 void printInstruction(Instruction *i) {
 /* TODO Task (h) complete printInstruction here */    
+
+
 }
 
 void testPrint(word w) {
