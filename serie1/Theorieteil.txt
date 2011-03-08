@@ -1,0 +1,16 @@
+Alex de-vnu-ll
+Mathieu Simon 07-121-650
+
+RA Serie 1
+----------
+
+Theorieteil
+
+1) Wie lang (in Bytes) ist der String “Test”?
+Gemäss Folie 19 aus dem C-Skript: 
+Ist ein Array aus "char", "Strings sind nullterminiert, der Letzte Wert ist 0"
+
+Daraus folgt:
+T e s t \0 -> Länge = 5 Bytes
+
+
