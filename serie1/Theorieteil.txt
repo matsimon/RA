@@ -64,3 +64,25 @@ zeigt auf die Adresse von i
 
 Aufgabe 5
 ---------
+Ausgabe:
+1 1
+1 2
+
+Zeile 1 *x -> Erster Wert im array x wird dereferenziert, und bei *px auch
+
+Zeile 5: px++ hat den zeiger inkrementiert bei px und zeigt nun auf den zweiten Wert im Array, also 2
+
+
+---
+
+Ausgabe bei zweitem Beispiel: 3, 11
+
+Problematisch:
+*(px--) überschreibt den Wert vor dem ersten Wert im Array x  - also Speicherbereich 
+etwa eines anderen Programmes.
+
+
+Aufgabe 6
+---------
+
+
