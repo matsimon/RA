@@ -17,3 +17,50 @@ T e s t \0 -> Länge = 5 Bytes
 3)
 
 	1.
+1. Zeile:
+
+void = typenloser Zeiger
+-> p zeigt auf die Speicheradresse von b und ist selber typenlose
+
+2. Zeile
+Die Speicheradresse von
+
+Adresse von b (&) wird an p übergeben, dass einen Variablen Typ sein kann (void *p)
+
+2. 
+Gibr den Hexadezimalwert dieser Adresse (von p) aus:
+bff61c
+
+3.
+
+
+Wird der Cast und dereferenzierung weggelassen wird nochmals die
+gleiche Adresse angezeit - erst nachher die Inkrementierung 
+der Speicheradresse von P
+von p.
+
+
+
+
+Aufgabe 4
+---------
+j = increment(&i) -> j wird die Rückgabe von increment erhalten
+
+increment(int *x)
+-> Es wird ein x übergeben, dass dann auch
+   auf Zeile 8 dereferenziert wird.
+
+Reihenfolge auf Zeile 8
+ i wird dereferenziert, also 1337
+ ++ steht vor der Klammer, also wird inkrementiert und dann zurückgegeben
+ Rückgabewert ist somit: 1338 - i wird 1337 bleiben.
+
+Bei *:
+Es wird ein Post-Increment gemacht, d.h. es wird zuerst die Rückgabe gemacht, dann
+inkrementiert. i=1337, j=1337
+
+zeigt auf die Adresse von i
+
+
+Aufgabe 5
+---------
