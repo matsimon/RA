@@ -19,10 +19,10 @@ T e s t \0 -> Länge = 5 Bytes
 
 2)
 Falls die Frage gestellt wäre, dass mittels shorts oder ints
-ein double-Array abgebildet werden müsste, wäre das hier natürlich nicht 
-korrekt.
+ein double-Array abgebildet werden müsste, wäre das hier natürlich 
+nicht korrekt.
 
-Mit einem Int-Array (zu ohne Pointerarithmetik)
+Mit einem Int-Array (ohne Pointerarithmetik)
 
 int a[10];			short a[10];
 
@@ -38,9 +38,9 @@ short  x 10 --> 2 Bytes pro Element        = 20 Bytes
 
 Gleiches Resultat mit Pointerarithmetik:
 
-short getAt(short *a, int i) {
- 	return *(a+i);
-}
+short getAt(short *a, int i) {		int getAt(int *a, int i) {
+ 	return *(a+i); 				return *(a+i);
+}					}
 
 Mit der Array-Deklaration wird der erforderliche Speicherplatz reserviert. 
 Bei short-Arrays sind dies 2 Bytes, bei int-Arrays 2 oder 4 Bytes pro 
@@ -51,43 +51,46 @@ double-Array, wo die Elemente 8 Bytes lang sind, der Fall war.
 Aufgabe 3
 ---------
 Intel ist auch Little Endian, also lässt sich das auch mit einem realen Programm
-testen - richtig? - Auf einer SPARC allerdings nicht.
+testen - Auf einer SPARC-Maschine allerdings nicht.
 
 long a = 1234567890; /* Hex: 499602d2 */
 long b = 987654321; /* Hex: 3ade68b1 */
 
-1 void * p = &b;
+void * p = &b;
 -> Void: p ist typenlos, nicht fest vorgegeben.
 
-2 printf("%x\n",p);
+printf("%x\n",p);
 -> Ausgabe: bffff844
    Grund: p Zeigt nur auf die Adresse von b, es wird nicht dereferenziert,
 	  die Speicheradresse wird also ausgegeben
 
-3 printf("%x\n", *(long*)p++);
--> Der Zeiger von p wird NACH der Ausgabe um 1 erhöht, der Wert
+printf("%x\n", *(long*)p++);
+   Der Zeiger von p wird NACH der Ausgabe um 1 erhöht, der Wert
    an der Speicheradresse bffff844 wird als long gecastet.
 
--> Ausgabe: 3ade68b1 - das wäre ja der Hex-Wert von long b, warum genau, können
-   wir nicht erklären. - Wird etwa bei diesem Cast zwangsläufig versucht den gesamten
+-> Ausgabe: 3ade68b1 
+
+   Das wäre ja der Hex-Wert von long b, warum genau, können wir nicht erklären. - Wird 
+   etwa bei diesem Cast zwangsläufig versucht den gesamten
    long b zu casten - ausgeben von dieser Speicheradresse, auf die p zeigt quasi die 
    Werte "zusammengesucht"
 
-4 [...]
-
-5 printf("%x\n",*(char*)p++);
--> Ausgabe, danach Inkrementierung. Der Wert an Speicheradresse a wird als char gecastet, 
+printf("%x\n",*(char*)p++);
+-> Ausgabe: 68
+   ... danach Inkrementierung. Der Wert an Speicheradresse a wird als char gecastet, 
    der Hex-Wert also einfach widergegeben, deshalb: 68.
 
-6 printf("%x\n",*(char*)p++);
+printf("%x\n",*(char*)p++);
 -> Ausgabe: Der Inhalt an der Speicheradresse bffff846 wird als char gecastet ausgegeben, also wäre das "de",
-    anschliessend wird der Zeiger p inkrementiert.  - Dachten wir.
+    anschliessend wird der Zeiger p inkrementiert. - Dachten wir.
     (Beim Beispiel aus dem Forum funktioniert das auch, aber hier erhielten wir stattdessen immer ffffffde).
     Vielleicht entsteht das durch die Formatierung als Hex, dass fffff zum auffüllen verwendet wird?
 
-7 printf("%x\n",p);
--> Ausgabe: bffff847, insgesamt wurde ja 3x inkrementiert, es wird nicht dereferenziert, also wird der 
+printf("%x\n",p);
+-> Ausgabe: bffff847
+   Insgesamt wurde p 3x inkrementiert, es wird nicht dereferenziert, also wird der 
    Name der Speicheradresse ausgegeben.
+
 
 Aufgabe 4
 ---------
@@ -96,7 +99,7 @@ i = 1338
 j = 1338
 
 Es wird ein pre-Increment verwendet, also Wert inkrementiert an j zurückgegeben.
-Da aber die Speicheradresse übergeben wurde von i, wurde dieses auch inkrementiert.
+Da aber die Speicheradresse übergeben wurde von i, wurde dieses ("auch") inkrementiert.
 
 Variante 2:
 i = 1338
@@ -141,16 +144,16 @@ union {
 	int b;		-> 1 Byte
 	short int d[4]; -> 8 Bytes (je 2 Bytes pro Int x 4)
 } myUnion;
-			   = Da es eine Union ist, verwendez sie
-			     denselben Speicherbereich. (des längsten
-			     "Elementes"), also 8 Bytes.
+			   = Da es eine Union ist, verwendet sie
+			     denselben Speicherbereich. 
+			     (des längsten "Elementes"), also 8 Bytes.
 
 printf("%i", sizeof(myStruct));
 printf("%i", sizeof(myUnion));
 
-
 Bei der Union zeigen alle Elemente auf dieselbe Startadresse, bei der Struct
-zeigt jedes Element auf eine eigene. - Richtig?
+zeigt jedes Element auf eine eigene.
+
 
 Aufgabe 7
 ---------
