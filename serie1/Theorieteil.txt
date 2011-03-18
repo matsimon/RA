@@ -1,14 +1,14 @@
-Alex de-vnu-ll
-Mathieu Simon 07-121-650
-
 RA Serie 1
 ----------
+Thomas Rickenback
+Mathieu Simon 07-121-650
+
 
 Theorieteil
+-----------
 
 Aufgabe 1
 ---------
-
 1) Wie lang (in Bytes) ist der String “Test”?
 Gemäss Folie 19 aus dem C-Skript: 
 Ist ein Array aus "char", "Strings sind nullterminiert, der Letzte Wert ist 0"
@@ -18,16 +18,31 @@ T e s t \0 -> Länge = 5 Bytes
 
 
 2)
-int a[10];
+Falls die Frage gestellt wäre, dass mittels shorts oder ints
+ein double-Array abgebildet werden müsste, wäre das hier natürlich nicht 
+korrekt.
 
-int getAt(int i){
-  return a[i];
-}
+Mit einem Int-Array (zu ohne Pointerarithmetik)
+
+int a[10];			short a[10];
+
+int getAt(int i){		short getAt(short i){
+  return a[i];				return a[i];
+}				}
+
+Der Unteschied hier liegt im Speicherverbauch zwischen int, short und double:
+double x 10 --> 8 Bytes pro Element	   = 80 Bytes
+int    x 10 --> 2 oder 4 Bytes pro Element = 20 oder 40 Bytes
+short  x 10 --> 2 Bytes pro Element        = 20 Bytes
+
 
 Gleiches Resultat mit Pointerarithmetik
+
 int getAt(int *a, int i) {
 	return *(a+i);
 }
+
+
 short a[10];
 
 short getAt(int i) {
@@ -114,15 +129,37 @@ Problematisch:
 *(px--) überschreibt den Wert vor dem ersten Wert im Array x  - also Speicherbereich 
 etwa eines anderen Programmes.
 
+Aufgabe 5
+---------
+
+1 short x[3] = {1, 2, 3};
+2 short *px = x;
+3 printf("%i %i\n", *x, *px);
+4 px++;
+5 printf("%i %i\n", *x, *px);
+
+
+
+
+u
+o
+Probleme auftreten k ̈nnen:
+o
+1
+2
+3
+4
+5
+short x = 3;
+short *px = &x;
+*(px--) = 10;
+*px = 11;
+printf("%i %i\n", x, *px);
+
+
 
 Aufgabe 6
----------
-erw
-
-
-Aufgabe 7
----------
-
+----------
 struct {
 	char a[4];	-> 4 Bytes benötigt
 	char b;		-> 1 Byte  ""
@@ -144,5 +181,30 @@ printf("%i", sizeof(myStruct));
 printf("%i", sizeof(myUnion));
 
 
-Bei der Union zeigen alle Eleente auf dieselbe Startadresse, bei der Struct
+Bei der Union zeigen alle Elemente auf dieselbe Startadresse, bei der Struct
 zeigt jedes Element auf eine eigene. - Richtig?
+
+Aufgabe 7
+---------
+
+ 1 #define callA callB(1)
+ 2 
+ 3 void callB(int a) {
+ 4	printf("%i\n", a+2);
+ 5 }
+ 6 
+ 7 int main() {
+ 8 	callA;
+ 9 	return EXIT_SUCCESS;
+10 }
+
+
+1 -> Präprozessoranweisung, ersetzt alle Vorkommnisse im Quellcode
+     von callA durch den Aufruf von callB(1). Kann Code abkürzen, oft
+     verwendet um Konstanten zu definieren.
+
+9 -> Effektiv steht callB(1), die Funktion callB wird mit dem Parameter
+     a=1 aufgerufen, dann ausgabe von in Zeile 4
+
+4 -> Als Integer (%i) formatiert, abgeschlossen von einer neuen Zeile:
+     a + 2 -> 1 + 2 -> "3" wird ausgegeben.
