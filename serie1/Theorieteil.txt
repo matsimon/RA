@@ -6,6 +6,9 @@ RA Serie 1
 
 Theorieteil
 
+Aufgabe 1
+---------
+
 1) Wie lang (in Bytes) ist der String “Test”?
 Gemäss Folie 19 aus dem C-Skript: 
 Ist ein Array aus "char", "Strings sind nullterminiert, der Letzte Wert ist 0"
@@ -14,7 +17,37 @@ Daraus folgt:
 T e s t \0 -> Länge = 5 Bytes
 
 
+2)
+int a[10];
+
+int getAt(int i){
+  return a[i];
+}
+
+Gleiches Resultat mit Pointerarithmetik
+int getAt(int *a, int i) {
+	return *(a+i);
+}
+short a[10];
+
+short getAt(int i) {
+ 	return a[i];
+}
+
+Gleiches Resultat mit Pointerarithmetik
+short getAt(short *a, int i) {
+ 	return *(a+i);
+}
+
+Mit der Array-Deklaration wird der erforderliche Speicherplatz reserviert. 
+Bei short-Arrays sind dies 2 Bytes, bei int-Arrays 2 oder 4 Bytes pro 
+Datenelement. Dadurch kann auch hier mit der Pointerarithmetik der 
+entsprechende Wert aufgefunden werden, wie dies auch im Beispiel mit dem 
+double-Array, wo die Elemente 8 Bytes lang sind, der Fall war.
+
 3)
+
+
 
 	1.
 1. Zeile:
@@ -53,7 +86,7 @@ increment(int *x)
 Reihenfolge auf Zeile 8
  i wird dereferenziert, also 1337
  ++ steht vor der Klammer, also wird inkrementiert und dann zurückgegeben
- Rückgabewert ist somit: 1338 - i wird 1337 bleiben.
+ Rückgabewert ist somit: 1338 - i wird überschriebem - bzw. zeigt immer noch auf dieselbe Adresse.
 
 Bei *:
 Es wird ein Post-Increment gemacht, d.h. es wird zuerst die Rückgabe gemacht, dann
@@ -84,5 +117,32 @@ etwa eines anderen Programmes.
 
 Aufgabe 6
 ---------
+erw
 
 
+Aufgabe 7
+---------
+
+struct {
+	char a[4];	-> 4 Bytes benötigt
+	char b;		-> 1 Byte  ""
+	char c;		-> 1 Byte  "" 
+	short int d;	-> 2 Bytes (eines davon das Vorzeichen)
+} myStruct;
+                           = 8 Bytes Total, einfach addiert
+
+union {
+	char a[8];	-> 8 Bytes 
+	int b;		-> 1 Byte
+	short int d[4]; -> 8 Bytes (je 2 Bytes pro Int x 4)
+} myUnion;
+			   = Da es eine Union ist, verwendez sie
+			     denselben Speicherbereich. (des längsten
+			     "Elementes"), also 8 Bytes.
+
+printf("%i", sizeof(myStruct));
+printf("%i", sizeof(myUnion));
+
+
+Bei der Union zeigen alle Eleente auf dieselbe Startadresse, bei der Struct
+zeigt jedes Element auf eine eigene. - Richtig?
