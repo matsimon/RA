@@ -154,7 +154,7 @@ typedef enum {
 /* TODO Task (f) add structure Operation here */
 typedef struct {
 	char name [OP_NAME_LENGTH];
-	InstructionType TYPE;
+	InstructionType type;
 	void (*operation) (Instruction* i);
 } Operation;
 
