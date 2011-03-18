@@ -1,7 +1,7 @@
 /* TODO: Task (b) Please fill in the following lines, then remove this line.
  *
- * author(s):   Thomas Rickenbach, Mathieu Simon
- *      
+ * author(s):   Thomas Rickenbach 85-116-408
+ *      	Mathieu Simon 07-121-65
  *
  * Please follow the instructions given in comments below. 
  * The file outputc1 shows what the output of this program 
@@ -237,17 +237,27 @@ void printInstruction(Instruction *i) {
 	Operation op = operations[i->i.opcode];
 	switch (op.type) {
 		case iType:	
-			printf ("%-4s %02d, %02d, 0x%04x \n", op.name, ((InstructionTypeI*)i)->rt,
-					((InstructionTypeI*)i)->rs, ((InstructionTypeI*)i)->immediate);
+			printf ("%-4s %02d, %02d, 0x%04x \n", 
+				op.name, ((InstructionTypeI*)i)->rt,
+				((InstructionTypeI*)i)->rs, 
+				((InstructionTypeI*)i)->immediate);
 			break;
+
 		case jType:	
-			printf ("%-4s 0x%08x \n", op.name, ((InstructionTypeJ*)i)->address);
+			printf ("%-4s 0x%08x \n", 
+				op.name, 
+				((InstructionTypeJ*)i)->address);
 			break;
+
 		case rType:	
-			printf ("%-4s %02d, %02d, %02d, 0x%04x \n", functions[((InstructionTypeR*)i)->funct].name,
-					((InstructionTypeR*)i)->rd, ((InstructionTypeR*)i)->rs, ((InstructionTypeR*)i)->rt,
-					((InstructionTypeR*)i)->shamt);
+			printf ("%-4s %02d, %02d, %02d, 0x%04x \n", 
+				functions[((InstructionTypeR*)i)->funct].name,
+				((InstructionTypeR*)i)->rd, 
+				((InstructionTypeR*)i)->rs, 
+				((InstructionTypeR*)i)->rt,
+				((InstructionTypeR*)i)->shamt);
 			break;
+
 		case specialType:
 			printf("%-4s\n", op.name);
 			break;
