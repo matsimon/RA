@@ -1,8 +1,8 @@
 /* TODO: Task (b) Please fill in the following lines, then remove this line.
  *
  * author(s):	Thomas Rickenbach 85-116-408
- *	        Mathieu Simon 07-121-650
- *      
+ *		Mathieu Simon 07-121-650
+ *
  * Please follow the instructions given in comments below. 
  * The file outputc1 shows what the output of this program 
  * should look like. 
@@ -35,7 +35,7 @@
 #define I_S2 18
 #define I_S3 19
 #define I_S4 20
-<#define I_S5 21
+#define I_S5 21
 #define I_S6 22
 #define I_S7 23
 #define I_T8 24
@@ -115,58 +115,18 @@ typedef unsigned short halfword;
 typedef unsigned char byte;
 
 /* TODO Task (c) add bitfields InstructionTypeI, InstructionTypeJ and InstructionTypeR here */
-typedef struct {
-	unsigned immediate:16;
-	unsigned rt:5;
-	unsigned rs:5;
-	unsigned opcode:6;
-} InstructionTypeI;
-
-typedef struct {
-	unsigned address:26;
-	unsigned opcode:6;
-} InstructionTypeJ;
-
-typedef struct {
-	unsigned funct:6;
-	unsigned shamt:5;
-	unsigned rd:5;
-	unsigned rt:5;
-	unsigned rs:5;
-	unsigned opcode:6;
-} InstructionTypeR;
 
 /* TODO Task (d) add union Instruction here */
-typedef union { 
-	InstructionTypeI i;
-	InstructionTypeJ j;
-	InstructionTypeR r;
-} Instruction;
 
 /* TODO Task (e) add enumeration InstructionType here */
-typedef enum { 
-	iType,
-	jType,
-	rType,
-	specialType
-} InstructionType;
 
 /* TODO Task (f) add structure Operation here */
-typedef struct {
-	char name [OP_NAME_LENGTH];
-	InstructionType TYPE;
-	void (*operation) (Instruction* i);
-} Operation;
 
 /* TODO Task (g) add structure Function here */
-typedef struct {
-	char name [FUNC_NAME_LENGTH];
-	void (*function) (Instruction*);
-} Function;
 
 /* Operation and function dispatcher */
 Operation operations[OPERATION_COUNT];
-Function functions[FUNCTION_COUNT]; 
+Function functions[FUNCTION_COUNT];
 
 /* Assembles the given parts of an I-type instruction into a single word*/
 word create_itype_hex(unsigned short immediate, unsigned short rt, unsigned short rs, unsigned short opcode) {
@@ -189,37 +149,37 @@ word create_specialtype_hex(unsigned short opcode) {
 }
 
 /* Copies operation into the operation dispatcher */
-	void assignOperation(unsigned short opCode, const char name[OP_NAME_LENGTH+1], InstructionType type, void (*operation)(Instruction*)) {
+void assignOperation(unsigned short opCode, const char name[OP_NAME_LENGTH+1], InstructionType type, void (*operation)(Instruction*)) {
     strcpy(operations[opCode].name, name);
     operations[opCode].type=type;
     operations[opCode].operation = operation;
-} 
+}
 
 /* Copies functions into the function dispatcher */
-	void assignFunction(unsigned short funct, const char name[FUNC_NAME_LENGTH+1], void (*function)(Instruction*)) {
+void assignFunction(unsigned short funct, const char name[FUNC_NAME_LENGTH+1], void (*function)(Instruction*)) {
     strcpy(functions[funct].name, name);
     functions[funct].function = function;
-} 
+}
 
 /* Initialize the "hardware" and operation and function dispatcher */
 void initialize() {
     int i;
     /* Initialize operations  with default values */
     for (i=0; i<OPERATION_COUNT; ++i) {
-			assignOperation(i, "ndef", specialType, 0); 
+        assignOperation(i, "ndef", specialType, 0);
     }
 
     /* to deal with operations with OpCode = 0, i.e. R-Type */
-		assignOperation(OC_ZERO, "zero", rType, 0); 
+    assignOperation(OC_ZERO, "zero", rType, 0);
 
     /* assign some actual operations */
-	assignOperation(OC_ADDI, "addi", iType, 0);
-    assignOperation(OC_J, "j", jType, 0); 
-    assignOperation(OC_LUI, "lui", iType, 0); 
-    assignOperation(OC_LW, "lw", iType, 0); 
+    assignOperation(OC_ADDI, "addi", iType, 0);
+    assignOperation(OC_J, "j", jType, 0);
+    assignOperation(OC_LUI, "lui", iType, 0);
+    assignOperation(OC_LW, "lw", iType, 0);
     assignOperation(OC_ORI, "ori", iType, 0);
     assignOperation(OC_SW, "sw", iType, 0);
-    assignOperation(OC_STOP,"stop", specialType, 0); 
+    assignOperation(OC_STOP,"stop", specialType, 0);
 
     /* Initialize operations with OpCode = 0 and corresponding functions with default values*/
     for (i=0; i<FUNCTION_COUNT; ++i) {
@@ -231,32 +191,14 @@ void initialize() {
     assignFunction(FC_SUB, "sub", 0);
 }
 
-	
-void printInstruction(Instruction *i) { 
+
+void printInstruction(Instruction *i) {
 /* TODO Task (h) complete printInstruction here */    
-	Operation op = operations[i->i.opcode];
-	switch (op.type) {
-		case iType: 	
-			printf ("%-4s %02d, %02d, 0x%04x \n", op.name,((InstructionTypeI*)i)->rt, ((InstructionTypeI*)->rt, ((InstructionTypeI*)i)->immediate);
-			break;
-		case jType:	
-			printf ("%-4s 0x%08x \n", op.name, ((InstructionTypeJ*)i)->address);
-			break;
-		case rType:	
-			printf ("%-4s %02d, %02d, %02d, 0x%04x \n", functions[((InstructionTypeR*)i)->funct].name,((InstructionTypeR*)i)->rd, ((InstructionTypeR*)i)->rs, ((InstructionTypeR*)i)->rt,((InstructionTypeR*)i)->shamt);
-			break;
-		case specialType:	
-			printf("%-4s\n", op.name);
-			break;
-		default:	
-			printf("error: op.type is not equal i/j/r Type or specialType");
-			break;
-	}
-} 
+}
 
 void testPrint(word w) {
-		 Instruction * instruction = (Instruction *) &w;
-    printInstruction(instruction); 
+    Instruction * instruction = (Instruction *) &w;
+    printInstruction(instruction);
 }
 
 int main(int argc, const char * argv[]) {
