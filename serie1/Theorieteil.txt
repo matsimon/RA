@@ -1,4 +1,4 @@
-RA Serie 1
+eRA Serie 1
 ----------
 Thomas Rickenback
 Mathieu Simon 07-121-650
@@ -36,20 +36,8 @@ int    x 10 --> 2 oder 4 Bytes pro Element = 20 oder 40 Bytes
 short  x 10 --> 2 Bytes pro Element        = 20 Bytes
 
 
-Gleiches Resultat mit Pointerarithmetik
+Gleiches Resultat mit Pointerarithmetik:
 
-int getAt(int *a, int i) {
-	return *(a+i);
-}
-
-
-short a[10];
-
-short getAt(int i) {
- 	return a[i];
-}
-
-Gleiches Resultat mit Pointerarithmetik
 short getAt(short *a, int i) {
  	return *(a+i);
 }
@@ -60,54 +48,63 @@ Datenelement. Dadurch kann auch hier mit der Pointerarithmetik der
 entsprechende Wert aufgefunden werden, wie dies auch im Beispiel mit dem 
 double-Array, wo die Elemente 8 Bytes lang sind, der Fall war.
 
-3)
+Aufgabe 3
+---------
+Intel ist auch Little Endian, also lässt sich das auch mit einem realen Programm
+testen - richtig? - Auf einer SPARC allerdings nicht.
 
+long a = 1234567890; /* Hex: 499602d2 */
+long b = 987654321; /* Hex: 3ade68b1 */
 
+1 void * p = &b;
+-> Void: p ist typenlos, nicht fest vorgegeben.
 
-	1.
-1. Zeile:
+2 printf("%x\n",p);
+-> Ausgabe: bffff844
+   Grund: p Zeigt nur auf die Adresse von b, es wird nicht dereferenziert,
+	  die Speicheradresse wird also ausgegeben
 
-void = typenloser Zeiger
--> p zeigt auf die Speicheradresse von b und ist selber typenlose
+3 printf("%x\n", *(long*)p++);
+-> Der Zeiger von p wird NACH der Ausgabe um 1 erhöht, der Wert
+   an der Speicheradresse bffff844 wird als long gecastet.
 
-2. Zeile
-Die Speicheradresse von
+-> Ausgabe: 3ade68b1 - das wäre ja der Hex-Wert von long b, warum genau, können
+   wir nicht erklären. - Wird etwa bei diesem Cast zwangsläufig versucht den gesamten
+   long b zu casten - ausgeben von dieser Speicheradresse, auf die p zeigt quasi die 
+   Werte "zusammengesucht"
 
-Adresse von b (&) wird an p übergeben, dass einen Variablen Typ sein kann (void *p)
+4 [...]
 
-2. 
-Gibr den Hexadezimalwert dieser Adresse (von p) aus:
-bff61c
+5 printf("%x\n",*(char*)p++);
+-> Ausgabe, danach Inkrementierung. Der Wert an Speicheradresse a wird als char gecastet, 
+   der Hex-Wert also einfach widergegeben, deshalb: 68.
 
-3.
+6 printf("%x\n",*(char*)p++);
+-> Ausgabe: Der Inhalt an der Speicheradresse bffff846 wird als char gecastet ausgegeben, also wäre das "de",
+    anschliessend wird der Zeiger p inkrementiert.  - Dachten wir.
+    (Beim Beispiel aus dem Forum funktioniert das auch, aber hier erhielten wir stattdessen immer ffffffde).
+    Vielleicht entsteht das durch die Formatierung als Hex, dass fffff zum auffüllen verwendet wird?
 
-
-Wird der Cast und dereferenzierung weggelassen wird nochmals die
-gleiche Adresse angezeit - erst nachher die Inkrementierung 
-der Speicheradresse von P
-von p.
-
-
-
+7 printf("%x\n",p);
+-> Ausgabe: bffff847, insgesamt wurde ja 3x inkrementiert, es wird nicht dereferenziert, also wird der 
+   Name der Speicheradresse ausgegeben.
 
 Aufgabe 4
 ---------
-j = increment(&i) -> j wird die Rückgabe von increment erhalten
+Variante 1:
+i = 1338
+j = 1338
 
-increment(int *x)
--> Es wird ein x übergeben, dass dann auch
-   auf Zeile 8 dereferenziert wird.
+Es wird ein pre-Increment verwendet, also Wert inkrementiert an j zurückgegeben.
+Da aber die Speicheradresse übergeben wurde von i, wurde dieses auch inkrementiert.
 
-Reihenfolge auf Zeile 8
- i wird dereferenziert, also 1337
- ++ steht vor der Klammer, also wird inkrementiert und dann zurückgegeben
- Rückgabewert ist somit: 1338 - i wird überschriebem - bzw. zeigt immer noch auf dieselbe Adresse.
+Variante 2:
+i = 1338
+j = 1337
 
-Bei *:
-Es wird ein Post-Increment gemacht, d.h. es wird zuerst die Rückgabe gemacht, dann
-inkrementiert. i=1337, j=1337
-
-zeigt auf die Adresse von i
+Auch hier die Inkrementierung auf dem Speicher, der von i verwendet wird, durchgeführt,
+aber ein post-Increment durchgeführt. - Der Wert wird an j zurückgegeben, anschliessend
+der Wert von i inkrementiert.
 
 
 Aufgabe 5
