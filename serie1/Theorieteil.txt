@@ -117,7 +117,6 @@ Zeile 1 *x -> Erster Wert im array x wird dereferenziert, und bei *px auch
 
 Zeile 5: px++ hat den zeiger inkrementiert bei px und zeigt nun auf den zweiten Wert im Array, also 2
 
-
 ---
 
 Ausgabe bei zweitem Beispiel: 3, 11
@@ -125,34 +124,6 @@ Ausgabe bei zweitem Beispiel: 3, 11
 Problematisch:
 *(px--) überschreibt den Wert vor dem ersten Wert im Array x  - also Speicherbereich 
 etwa eines anderen Programmes.
-
-Aufgabe 5
----------
-
-1 short x[3] = {1, 2, 3};
-2 short *px = x;
-3 printf("%i %i\n", *x, *px);
-4 px++;
-5 printf("%i %i\n", *x, *px);
-
-
-
-
-u
-o
-Probleme auftreten k ̈nnen:
-o
-1
-2
-3
-4
-5
-short x = 3;
-short *px = &x;
-*(px--) = 10;
-*px = 11;
-printf("%i %i\n", x, *px);
-
 
 
 Aufgabe 6
