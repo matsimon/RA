@@ -104,3 +104,10 @@ L3: add:$to,$to,-1
 	add $t3,$t4,$t3
 
 	jl L3
+
+
+Optionale Fragen
+----------------
+
+Byte-Reihenfolge:
+
