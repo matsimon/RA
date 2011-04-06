@@ -28,19 +28,13 @@ C:
 (Newline -> \n, ?)
 
 
-
-
-
 Aufgabe 2
 ---------
 Zeilen:
 
 1 int * a:		Pointer auf eine Variable   'a' vom Typ int
-
 2 int const * b;	Pointer auf eine Konstante  'b' vom Typ int
-
 3 int * const c;	Pointer auf eine Adresse, welche eine Konstante c entält
-
 4 int const * const d:	Konstanter pointer (zeigt immer auf dieselbe Speicheradresse), auf der eine
 
 			KOnstante d abgelegt ist (undefinierter Typ).
@@ -48,10 +42,9 @@ Zeilen:
 Aufgabe 3
 ----------
 Die for-Schleife startet bei i=0 und endet bei i=10, das führt dazu, dass bei 
-i=0 die erste '10' ausgegeben wird, bei i=9 
-
-die letzt '0' - das bedeutet, dass beim letzten for-Durchlauf der Programmcode
-irgend etwas was sich nach diesem definierten Array ausgeben wird.
+i=0 die erste '10' ausgegeben wird, bei i=9 die letzte '0' - das bedeutet, dass 
+beim letzten for-Durchlauf der Programmcode irgend etwas was sich nach diesem 
+definierten Array befindet, ausgegeben wird.
 
 Ob pre oder post increment benutzt wird spielt keine Rolle, dies würde
 mit i<10 umgehbar sein.
@@ -63,7 +56,14 @@ L1:	beq $s2, $zero, L2
 
     	#do something
 
-	sub
+	sub $s2, $s2, $s1
+	
+	j L1
+
+L2:
+
+for(i=11; i >= 0; i--){
+	{do soomething};
 
 
 
