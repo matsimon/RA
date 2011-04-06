@@ -10,10 +10,8 @@ Theorieteil
 RA Serie 2
 ----------
 
-
 Aufgabe 1
 ----------
-
 A: 
 
 10
@@ -47,10 +45,6 @@ Zeilen:
 
 			KOnstante d abgelegt ist (undefinierter Typ).
 
-
-
-
-
 Aufgabe 3
 ----------
 Die for-Schleife startet bei i=0 und endet bei i=10, das führt dazu, dass bei 
@@ -81,12 +75,120 @@ Aufgabe 5
 
 Aufgabe 6
 ----------
-a) BE
-0110 1101
+a) Big Endian		
+(Adresse 10007 beinhaltet die höchsten Werte 2^24 - 2^31, d.h. 4. Block = Startbl.)
+(bei beiden von links nach rechts, hier von unten nach oben innerhalb 
 
-b) LE
-0000 0000 0100 
+b) Little Endian
+blockweise vertauschte Reihenfolge der Binärwerte, Adresse 10004 ist Startblock) der Blöcke)
 
+1. Block 
+1 ^ 0
+= 1								1	1
+
+2 ^ 1
+= 2
+ 
+2 * 2 
+= 4								1	4
+ 
+4 * 2 
+= 8								1	8
+ 
+8 * 2 
+= 16
+ 
+16 * 2 
+= 32								1	32
+ 
+32 * 2 
+= 64								1	64
+ 
+64 * 2 
+= 128
+
+Adresse		10006			10005
+
+
+2.Block 
+128 * 2 
+= 256
+ 
+256 * 2 
+= 512
+ 
+512 * 2 
+= 1024			1	1024		1	1024
+ 
+1024 * 2 
+= 2048							1	2048
+ 
+2048 * 2 
+= 4096
+ 
+4096 * 2 
+= 8192			1	8192
+ 
+8192 * 2 
+= 16384
+ 
+16384 * 2 
+= 32768							1	32768
+
+Adresse		10005			10006
+3. Block 
+32768 * 2 
+= 65536
+ 
+65536 * 2 
+= 131072
+ 
+131072 * 2 
+= 262144			1	262144		1	262144
+ 
+262144 * 2 
+= 524288			1	524288
+ 
+524288 * 2 
+= 1048576
+ 
+1048576 * 2 
+= 2097152						1	2097152
+ 
+2097152 * 2 
+= 4194304
+ 
+4194304 * 2 
+= 8388608		1	8388608
+
+Adresse		10004			10007
+
+4. Block 
+8388608 * 2 
+= 16777216		1	16777216
+ 
+16777216 * 2 
+= 33554432
+ 
+33554432 * 2 
+= 67108864		1	67108864
+ 
+67108864 * 2 
+= 134217728		1	134217728
+ 
+134217728 * 2 
+= 268435456
+ 
+268435456 * 2 
+= 536870912		1	536870912
+ 
+536870912 * 2 
+= 1073741824		1	1073741824
+ 
+1073741824 * 2 
+= 2147483648
+
+Summe				1'837'900'800		2'395'245
 
 
 Aufgabe 7
