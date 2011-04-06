@@ -195,17 +195,15 @@ Aufgabe 7
 ----------
 x[index] = x[index]*mul
 
-lw$t3, index($t2)
 
-lw$t4, index($t2)
+mul:	lw $t3, index($t2)
 
-L3: add:$to,$to,-1
+L1:	addi $t0,$t0-1
+	beq $t0,$zero,L2
+	add $t3,$t3$t2
+	j L1
 
-	beq $t', $zero,L4
-
-	add $t3,$t4,$t3
-
-	jl L3
+L2:	sw $t2,indext(t3)
 
 
 Optionale Fragen
