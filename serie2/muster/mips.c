@@ -77,12 +77,11 @@ void printInstruction(Instruction *i) {
 
 /* Store a word to memory */
 void storeWord(word w, word location) {
-	
-	memory[location] = (w >> (8*3));
+	memory[location]   = ( w >> (8*3));
 	memory[location+1] = ((w >> (8*2)) & 0xFF);
 	memory[location+2] = ((w >> (8*1)) & 0xFF);
-	memory[location+3] = (w & 0xFF);
-	}
+	memory[location+3] = ( w           & 0xFF);
+}
 
 /* Load a word from memory */
 word loadWordFrom(word location) {

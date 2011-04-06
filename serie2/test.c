@@ -1,5 +1,4 @@
-/* TODO: Task (b) Please fill in the following lines, then remove this line.
- *
+/*
  * author(s):   Thomas Rickenbach <trb@students.unibe.ch>
  *              Mathieu Simon <mathieu.simon@students.unibe.ch>
  * modified:    2011-04-04
@@ -103,7 +102,19 @@ void test_lui() {
 
 /* LW */
 void test_lw() {
-    /* TODO: Task (d) add test for LW here */
+	word locationA = 0x00001000;
+
+	word w = 0xFFFFFFFF;
+	storeWord(w, location1);
+	T1 = locationA;
+	test_execute(create_itype_hex(0x0000, I_T0, I_T1, OC_LW));
+	assert(T0 == w);
+
+	w =0x12345678;
+	storeWord(w, location1 + 0x0001);
+	T1 = locationA;
+	test_execute(create_itype_hex(0x0001, I_T0, I_T1, OC_LW));
+	assert(T0 == w);
 } 
 
 /* ORI */
@@ -143,13 +154,13 @@ void execute_test(void (*test)(void)) {
 
 /* executes all tests */
 int main (int argc, const char * argv[]) {
-	execute_test(&test_sw);
 	execute_test(&test_add);
 	execute_test(&test_addi);
-	execute_test(&test_jal);
+/*	execute_test(&test_jal); */
 	execute_test(&test_lui);
 	execute_test(&test_lw);
-	execute_test(&test_ori);
+	execute_test(&test_sw);
 	execute_test(&test_sub);
+	execute_test(&test_ori);
 	return 0;
 }
