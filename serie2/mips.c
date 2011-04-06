@@ -1,5 +1,4 @@
-/* TODO: Task (b) Please fill in the following lines, then remove this line.
- *
+/* 
  * author(s):   Thomas Rickenbach <trb@students.unibe.ch>
  *              Mathieu Simon <mathieu.simon@students.unibe.ch>
  * modified:    2011-04-04
@@ -20,7 +19,7 @@ word pc;
 int doRun;
 
 /* In case you want to watch the machine working */
-int verbose = TRUE;
+int verbose = FALSE;
 
 /* Operation and function dispatcher */
 Operation operations[OPERATION_COUNT];
@@ -80,10 +79,10 @@ void printInstruction(Instruction *i) {
 
 /* Store a word to memory */
 void storeWord(word w, word location) {
-	memory[location]   = (w >> (8*3));
-	memory[location+1] = (w >> (8*2) && 0xFF);
-	memory[location+2] = (w >> (8*1) && 0xFF);
-	memory[location+3] = (w && 0xFF);
+	memory[location]   = ( w >> (8*3));
+	memory[location+1] = ((w >> (8*2)) & 0xFF);
+	memory[location+2] = ((w >> (8*1)) & 0xFF);
+	memory[location+3] = ( w           & 0xFF);
 }
 
 /* Load a word from memory */
@@ -201,21 +200,27 @@ void stopOperation(Instruction *instruction) {
 
 /* ADD */
 void mips_add(Instruction *instruction) {
-	/* TODO: Task (e) implement ADD here */
+	InstructionTypeR r = instruction->r;
+	registers[r.rd] = (signed)registers[r.rs] + (signed)registers[r.rt];
 }
 
 /* ADDI */
 void mips_addi(Instruction *instruction) {
-	/* TODO: Task (e) implement ADDI here */
+	InstructionTypeI i = instruction->i;
+	registers[i.rt] = (signed)registers[i.rs] + (signed)signExtend(i.immediate);
 }
 
 /* JAL */
 void mips_jal(Instruction *instruction) {
-	/* TODO: Task (e) implement JAL here */}
+	InstructionTypeJ j = instruction->j;
+	RA = pc;
+	pc = pc+(signed)4*j.address-4;
+}
 
 /* LUI */
 void mips_lui(Instruction *instruction) {
-	/* TODO: Task (e) implement LUI here */
+	InstructionTypeI i = instruction->i;
+	registers[i.rt] = i.immediate << (2*8);
 }
 
 /* LW */
@@ -238,6 +243,6 @@ void mips_sub(Instruction *instruction) {
 
 /* SW */
 void mips_sw(Instruction *instruction) {
-	/* TODO: Task (e) implement SW here */
+	InstructionTypeI i = instruction->i;
+	storeWord(registers[i.rt], registers[i.rs] + (signed)signExtend(i.immediate));
 }
-
