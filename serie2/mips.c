@@ -214,7 +214,7 @@ void mips_addi(Instruction *instruction) {
 void mips_jal(Instruction *instruction) {
 	InstructionTypeJ j = instruction->j;
 	RA = pc;
-	pc = pc+(signed)4*j.address-4;
+	pc = (pc&0xf0000000)+(signed)4*j.address;
 }
 
 /* LUI */
