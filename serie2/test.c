@@ -119,12 +119,27 @@ void test_lw() {
 
 /* ORI */
 void test_ori() {
-    /* TODO: Task (d) add test for ORI here */
+     T2 = 0x0000A005;
+     test_execute(create_itype_hex(0xA099, I_T0, I_T2, OC_ORI));
+     assert(T0 == (0x0000A005 | 0xA099));
 }
 
 /* SUB */
 void test_sub() {
-    /* TODO: Task (d) add test for SUB here */
+	T1=2;
+        T2=8;
+        test_execute(create_rtype_hex(FC_SUB, 0x0000, I_T0, I_T1, I_T2, OC_SUB));
+        assert(T0==6);
+
+        T1=8;
+        T2=2;
+        test_execute(create_rtype_hex(FC_SUB, 0x0000, I_T0, I_T1, I_T2, OC_SUB));
+        assert(T0==-6);
+
+        T1=4;
+        T2=4;
+        test_execute(create_rtype_hex(FC_SUB, 0x0000, I_T0, I_T1, I_T2, OC_SUB));
+        assert(T0==0);
 }
 
 /* SW */
@@ -158,7 +173,7 @@ int main (int argc, const char * argv[]) {
 	execute_test(&test_addi);
 /*	execute_test(&test_jal); */
 	execute_test(&test_lui);
-	execute_test(&test_lw);
+	execute_test(&test_lw); 
 	execute_test(&test_sw);
 	execute_test(&test_sub);
 	execute_test(&test_ori);
