@@ -1,0 +1,10 @@
+--- Makefile	2010-01-12 17:22:32.000000000 +0100
++++ Makefile	2011-04-07 23:56:03.000000000 +0200
+@@ -1,5 +1,5 @@
+-CC      = gcc
+-CFLAGS  = -std=c99 -pedantic -Wall
++CC      = clang
++CFLAGS  = -std=c99 -pedantic -Wall -m32
+ 
+ OBJ = mips.o compiler.o memory.o
+ 
