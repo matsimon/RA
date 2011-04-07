@@ -88,7 +88,7 @@ void test_jal() {
         pc += 4;
        	operations[instruction->i.opcode].operation(instruction);
 	assert(RA == pcSaved + 4);
-        assert(pc == 0xA0000004);
+   assert(pc == 0xA0000004);
 }
 
 /* LUI */
@@ -102,26 +102,29 @@ void test_lui() {
 
 /* LW */
 void test_lw() {
-	word locationA = 0x00001000;
+    word location1 = 0x00001000;
+        
+    word w = 0xFFFFFFFF;
+    storeWord(w, location1);
+    T1 = location1;
+    test_execute(create_itype_hex(0x0000, I_T0, I_T1, OC_LW));
+    assert(T0 == w);
 
-	word w = 0xFFFFFFFF;
-	storeWord(w, location1);
-	T1 = locationA;
-	test_execute(create_itype_hex(0x0000, I_T0, I_T1, OC_LW));
-	assert(T0 == w);
-
-	w =0x12345678;
-	storeWord(w, location1 + 0x0001);
-	T1 = locationA;
-	test_execute(create_itype_hex(0x0001, I_T0, I_T1, OC_LW));
-	assert(T0 == w);
-} 
+    w =0x12345678;
+    storeWord(w, location1 + 0x0001);
+    T1 = location1;
+    test_execute(create_itype_hex(0x0001, I_T0, I_T1, OC_LW));
+    assert(T0 == w);
+}
 
 /* ORI */
 void test_ori() {
      T2 = 0x0000A005;
      test_execute(create_itype_hex(0xA099, I_T0, I_T2, OC_ORI));
      assert(T0 == (0x0000A005 | 0xA099));
+
+     test_execute(create_itype_hex(0xFFFF, I_T0, I_T2, OC_ORI));
+     assert(T0 == 0x0000FFFF);
 }
 
 /* SUB */
@@ -171,7 +174,7 @@ void execute_test(void (*test)(void)) {
 int main (int argc, const char * argv[]) {
 	execute_test(&test_add);
 	execute_test(&test_addi);
-/*	execute_test(&test_jal); */
+	execute_test(&test_jal); 
 	execute_test(&test_lui);
 	execute_test(&test_lw); 
 	execute_test(&test_sw);
