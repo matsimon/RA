@@ -1,8 +1,7 @@
-/* TODO: Task (b) Please fill in the following lines, then remove this line.
- *
- * author(s):   FIRSTNAME LASTNAME 
- *              (FIRSTNAME2 LASTNAME2)
- * modified:    2010-01-07
+/*
+ * author(s):   Thomas Rickenbach <trb@students.unibe.ch>
+ *              Mathieu Simon <mathieu.simon@students.unibe.ch>
+ * modified:    2011-04-04
  *
  */
 
@@ -89,7 +88,7 @@ void test_jal() {
         pc += 4;
        	operations[instruction->i.opcode].operation(instruction);
 	assert(RA == pcSaved + 4);
-        assert(pc == 0xA0000004);
+   assert(pc == 0xA0000004);
 }
 
 /* LUI */
@@ -103,17 +102,47 @@ void test_lui() {
 
 /* LW */
 void test_lw() {
-    /* TODO: Task (d) add test for LW here */
-} 
+    word location1 = 0x00001000;
+        
+    word w = 0xFFFFFFFF;
+    storeWord(w, location1);
+    T1 = location1;
+    test_execute(create_itype_hex(0x0000, I_T0, I_T1, OC_LW));
+    assert(T0 == w);
+
+    w =0x12345678;
+    storeWord(w, location1 + 0x0001);
+    T1 = location1;
+    test_execute(create_itype_hex(0x0001, I_T0, I_T1, OC_LW));
+    assert(T0 == w);
+}
 
 /* ORI */
 void test_ori() {
-    /* TODO: Task (d) add test for ORI here */
+     T2 = 0x0000A005;
+     test_execute(create_itype_hex(0xA099, I_T0, I_T2, OC_ORI));
+     assert(T0 == (0x0000A005 | 0xA099));
+
+     test_execute(create_itype_hex(0xFFFF, I_T0, I_T2, OC_ORI));
+     assert(T0 == 0x0000FFFF);
 }
 
 /* SUB */
 void test_sub() {
-    /* TODO: Task (d) add test for SUB here */
+	T1=2;
+        T2=8;
+        test_execute(create_rtype_hex(FC_SUB, 0x0000, I_T0, I_T1, I_T2, OC_SUB));
+        assert(T0==6);
+
+        T1=8;
+        T2=2;
+        test_execute(create_rtype_hex(FC_SUB, 0x0000, I_T0, I_T1, I_T2, OC_SUB));
+        assert(T0==-6);
+
+        T1=4;
+        T2=4;
+        test_execute(create_rtype_hex(FC_SUB, 0x0000, I_T0, I_T1, I_T2, OC_SUB));
+        assert(T0==0);
 }
 
 /* SW */
@@ -145,11 +174,11 @@ void execute_test(void (*test)(void)) {
 int main (int argc, const char * argv[]) {
 	execute_test(&test_add);
 	execute_test(&test_addi);
-	execute_test(&test_jal);
+	execute_test(&test_jal); 
 	execute_test(&test_lui);
-	execute_test(&test_lw);
-	execute_test(&test_ori);
-	execute_test(&test_sub);
+	execute_test(&test_lw); 
 	execute_test(&test_sw);
+	execute_test(&test_sub);
+	execute_test(&test_ori);
 	return 0;
 }

@@ -1,0 +1,162 @@
+diff -rupN skeleton//mips.c abgabe//mips.c
+--- skeleton//mips.c	2011-04-06 13:00:20.000000000 +0200
++++ abgabe//mips.c	2011-04-07 16:53:56.000000000 +0200
+@@ -1,8 +1,7 @@
+-/* TODO: Task (b) Please fill in the following lines, then remove this line.
+- *
+- * author(s):   FIRSTNAME LASTNAME 
+- *              (FIRSTNAME2 LASTNAME2)
+- * modified:    2010-01-07
++/* 
++ * author(s):   Thomas Rickenbach <trb@students.unibe.ch>
++ *              Mathieu Simon <mathieu.simon@students.unibe.ch>
++ * modified:    2011-04-04
+  *
+  */
+ 
+@@ -80,7 +79,10 @@ void printInstruction(Instruction *i) {
+ 
+ /* Store a word to memory */
+ void storeWord(word w, word location) {
+-	/* TODO: Task (c) implement storeWord here */
++	memory[location]   = (  w >> (8*3));
++	memory[location+1] = ( (w >> (8*2)) & 0xFF);
++	memory[location+2] = ( (w >> (8*1)) & 0xFF);
++	memory[location+3] = (  w           & 0xFF);
+ }
+ 
+ /* Load a word from memory */
+@@ -198,21 +200,27 @@ void stopOperation(Instruction *instruct
+ 
+ /* ADD */
+ void mips_add(Instruction *instruction) {
+-	/* TODO: Task (e) implement ADD here */
++	InstructionTypeR r = instruction->r;
++	registers[r.rd] = (signed)registers[r.rs] + (signed)registers[r.rt];
+ }
+ 
+ /* ADDI */
+ void mips_addi(Instruction *instruction) {
+-	/* TODO: Task (e) implement ADDI here */
++	InstructionTypeI i = instruction->i;
++	registers[i.rt] = (signed)registers[i.rs] + (signed)signExtend(i.immediate);
+ }
+ 
+ /* JAL */
+ void mips_jal(Instruction *instruction) {
+-	/* TODO: Task (e) implement JAL here */}
++	InstructionTypeJ j = instruction->j;
++	RA = pc;
++	pc = (pc&0xf0000000)+(signed)4*j.address;
++}
+ 
+ /* LUI */
+ void mips_lui(Instruction *instruction) {
+-	/* TODO: Task (e) implement LUI here */
++	InstructionTypeI i = instruction->i;
++	registers[i.rt] = i.immediate << (2*8);
+ }
+ 
+ /* LW */
+@@ -235,6 +243,6 @@ void mips_sub(Instruction *instruction)
+ 
+ /* SW */
+ void mips_sw(Instruction *instruction) {
+-	/* TODO: Task (e) implement SW here */
++	InstructionTypeI i = instruction->i;
++	storeWord(registers[i.rt], registers[i.rs] + (signed)signExtend(i.immediate));
+ }
+-
+diff -rupN skeleton//test.c abgabe//test.c
+--- skeleton//test.c	2011-04-06 13:00:20.000000000 +0200
++++ abgabe//test.c	2011-04-07 16:53:56.000000000 +0200
+@@ -1,8 +1,7 @@
+-/* TODO: Task (b) Please fill in the following lines, then remove this line.
+- *
+- * author(s):   FIRSTNAME LASTNAME 
+- *              (FIRSTNAME2 LASTNAME2)
+- * modified:    2010-01-07
++/*
++ * author(s):   Thomas Rickenbach <trb@students.unibe.ch>
++ *              Mathieu Simon <mathieu.simon@students.unibe.ch>
++ * modified:    2011-04-04
+  *
+  */
+ 
+@@ -89,7 +88,7 @@ void test_jal() {
+         pc += 4;
+        	operations[instruction->i.opcode].operation(instruction);
+ 	assert(RA == pcSaved + 4);
+-        assert(pc == 0xA0000004);
++   assert(pc == 0xA0000004);
+ }
+ 
+ /* LUI */
+@@ -103,17 +102,47 @@ void test_lui() {
+ 
+ /* LW */
+ void test_lw() {
+-    /* TODO: Task (d) add test for LW here */
+-} 
++    word location1 = 0x00001000;
++        
++    word w = 0xFFFFFFFF;
++    storeWord(w, location1);
++    T1 = location1;
++    test_execute(create_itype_hex(0x0000, I_T0, I_T1, OC_LW));
++    assert(T0 == w);
++
++    w =0x12345678;
++    storeWord(w, location1 + 0x0001);
++    T1 = location1;
++    test_execute(create_itype_hex(0x0001, I_T0, I_T1, OC_LW));
++    assert(T0 == w);
++}
+ 
+ /* ORI */
+ void test_ori() {
+-    /* TODO: Task (d) add test for ORI here */
++     T2 = 0x0000A005;
++     test_execute(create_itype_hex(0xA099, I_T0, I_T2, OC_ORI));
++     assert(T0 == (0x0000A005 | 0xA099));
++
++     test_execute(create_itype_hex(0xFFFF, I_T0, I_T2, OC_ORI));
++     assert(T0 == 0x0000FFFF);
+ }
+ 
+ /* SUB */
+ void test_sub() {
+-    /* TODO: Task (d) add test for SUB here */
++	T1=2;
++        T2=8;
++        test_execute(create_rtype_hex(FC_SUB, 0x0000, I_T0, I_T1, I_T2, OC_SUB));
++        assert(T0==6);
++
++        T1=8;
++        T2=2;
++        test_execute(create_rtype_hex(FC_SUB, 0x0000, I_T0, I_T1, I_T2, OC_SUB));
++        assert(T0==-6);
++
++        T1=4;
++        T2=4;
++        test_execute(create_rtype_hex(FC_SUB, 0x0000, I_T0, I_T1, I_T2, OC_SUB));
++        assert(T0==0);
+ }
+ 
+ /* SW */
+@@ -145,11 +174,11 @@ void execute_test(void (*test)(void)) {
+ int main (int argc, const char * argv[]) {
+ 	execute_test(&test_add);
+ 	execute_test(&test_addi);
+-	execute_test(&test_jal);
++	execute_test(&test_jal); 
+ 	execute_test(&test_lui);
+-	execute_test(&test_lw);
+-	execute_test(&test_ori);
+-	execute_test(&test_sub);
++	execute_test(&test_lw); 
+ 	execute_test(&test_sw);
++	execute_test(&test_sub);
++	execute_test(&test_ori);
+ 	return 0;
+ }

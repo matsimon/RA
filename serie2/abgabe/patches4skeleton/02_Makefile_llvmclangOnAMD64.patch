@@ -1,0 +1,10 @@
+--- skeleton/Makefile	2011-04-06 12:59:35.000000000 +0200
++++ abgabe/Makefile	2011-04-07 16:55:17.000000000 +0200
+@@ -1,5 +1,5 @@
+-CC      = gcc
+-CFLAGS  = -ansi -pedantic -Wall
++CC      = clang
++CFLAGS  = -ansi -pedantic -Wall -m32
+ 
+ OBJ = mips.o 
+ 
