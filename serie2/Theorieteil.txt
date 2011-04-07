@@ -66,10 +66,17 @@ for(i=11; i >= 0; i--){
 	{do soomething};
 
 
+int s2 = 11;
+while (s2 !=0 ) {
+	// do something
+	s2-- ;
+}
+
 
 Aufgabe 5
 ----------
 
+bge $32, $s1, label  /* $s2 >= $s1 springe zu label1 */
 
 
 
@@ -82,27 +89,33 @@ a) Big Endian
 b) Little Endian
 blockweise vertauschte Reihenfolge der Binärwerte, Adresse 10004 ist Startblock) der Blöcke)
 
+BE
+10007 0000 0000  Wert -> 837 900 800
+
+LE
+10004 0110 1101  Wert -> 2 395 245
+
 1. Block 
 1 ^ 0
-= 1								1	1
+= 1					1	1
 
 2 ^ 1
 = 2
  
 2 * 2 
-= 4								1	4
+= 4					1	4
  
 4 * 2 
-= 8								1	8
+= 8					1	8
  
 8 * 2 
 = 16
  
 16 * 2 
-= 32								1	32
+= 32					1	32
  
 32 * 2 
-= 64								1	64
+= 64					1	64
  
 64 * 2 
 = 128
@@ -118,22 +131,22 @@ Adresse		10006			10005
 = 512
  
 512 * 2 
-= 1024			1	1024		1	1024
+= 1024					1	1024		1	1024
  
 1024 * 2 
-= 2048							1	2048
+= 2048					1	2048
  
 2048 * 2 
 = 4096
  
 4096 * 2 
-= 8192			1	8192
+= 8192					1	8192
  
 8192 * 2 
 = 16384
  
 16384 * 2 
-= 32768							1	32768
+= 32768					1	32768
 
 Adresse		10005			10006
 3. Block 
@@ -144,46 +157,46 @@ Adresse		10005			10006
 = 131072
  
 131072 * 2 
-= 262144			1	262144		1	262144
+= 262144				1	262144		1	262144
  
 262144 * 2 
-= 524288			1	524288
+= 524288				1	524288
  
 524288 * 2 
 = 1048576
  
 1048576 * 2 
-= 2097152						1	2097152
+= 2097152				1	2097152
  
 2097152 * 2 
 = 4194304
  
 4194304 * 2 
-= 8388608		1	8388608
+= 8388608				1	8388608
 
 Adresse		10004			10007
 
 4. Block 
 8388608 * 2 
-= 16777216		1	16777216
+= 16777216				1	16777216
  
 16777216 * 2 
 = 33554432
  
 33554432 * 2 
-= 67108864		1	67108864
+= 67108864				1	67108864
  
 67108864 * 2 
-= 134217728		1	134217728
+= 134217728				1	134217728
  
 134217728 * 2 
 = 268435456
  
 268435456 * 2 
-= 536870912		1	536870912
+= 536870912				1	536870912
  
 536870912 * 2 
-= 1073741824		1	1073741824
+= 1073741824				1	1073741824
  
 1073741824 * 2 
 = 2147483648
@@ -206,8 +219,23 @@ L1:	addi $t0,$t0-1
 L2:	sw $t2,indext(t3)
 
 
+Aufgabe 8
+---------
+Angenommen, A sei ein Array mit zehn Daten-Wörtern (im Hauptspeicher), die Basisadresse des
+Arrays befinde sich in $s1. Laden Sie das letzte Wort von A mit genau einem Befehl in das 
+Register $s2:
+
+lw $s2, 36($s1)
+
+-> Das Wort wird aus  $s1 geladen. Das Array
+   beginnt bei 0 =1
+
+   Das Wort 10 in im Array A[9] => 9 * 4 = 36($s1)
+   Das Wort wird in $s2 gespeicher mit lw.
+
+
+
 Optionale Fragen
 ----------------
 
-Byte-Reihenfolge:
-
+Byte-Reihenfolge: LE
