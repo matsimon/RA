@@ -89,6 +89,7 @@ void test_jal() {
         pc += 4;
        	operations[instruction->i.opcode].operation(instruction);
 	assert(RA == pcSaved + 4);
+	printf(pc);
         assert(pc == 0xA0000004);
 }
 

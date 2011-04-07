@@ -129,18 +129,18 @@ void test_ori() {
 void test_sub() {
 	T2 = 1;
 	T1 = 1;
-    test_execute(create_rtype_hex( FC_SUB, 0, I_T0, I_T1, I_T2, OC_SUB));
-    assert(T0 == 0);
+	test_execute(create_rtype_hex( FC_SUB, 0, I_T0, I_T1, I_T2, OC_SUB));
+	assert(T0 == 0);
     
-    T2 = 1;
+	T2 = 1;
 	T1 = -1;
-    test_execute(create_rtype_hex( FC_SUB, 0, I_T0, I_T1, I_T2, OC_SUB));
-    assert(T0 == 2);
+	test_execute(create_rtype_hex( FC_SUB, 0, I_T0, I_T1, I_T2, OC_SUB));
+	assert(T0 == 2);
     
-    T2 = 1;
-	T1 = -1;
-    test_execute(create_rtype_hex( FC_SUB, 0, I_T0, I_T1, I_T2, OC_SUB));
-    assert(T0 == 2);
+	T2 = 1;
+	T1 = -1;	
+	test_execute(create_rtype_hex( FC_SUB, 0, I_T0, I_T1, I_T2, OC_SUB));
+	assert(T0 == 2);
     
 }
 
