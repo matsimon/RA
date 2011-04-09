@@ -1,7 +1,7 @@
 /* TODO: Task (b) Please fill in the following lines, then remove this line.
  *
- * author(s):   Thomas Rickenbach 85-116-408
- *      	Mathieu Simon 07-121-65
+ * author(s):   Thomas Rickenbach
+ *      	Mathieu Simon 
  *
  * Please follow the instructions given in comments below. 
  * The file outputc1 shows what the output of this program 
