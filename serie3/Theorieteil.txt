@@ -1,0 +1,28 @@
+RA Serie 3: Theorieteil
+----------
+Thomas Rickenbach
+Mathieu Simon
+
+Aufgabe 1
+---------
+- Die Maschine ist 16.67% langsamer. dies weil der Load-Befehl nun 15nsec
+benötigt und dadurch die Gesamtzeit für alle Befehle 35 statt 30nsec
+beträgt.
+- Die CPU ist 8.33% schneller, weil die Gesamtzeit nun 27.5nsec statt 30nsec
+beträgt. 
+
+Aufgabe 2
+--------
+
+
+Aufgabe 3
+---------
+Zur Bestimmung des most significant bit ist die Implementierung einer
+Overflow detection erforderlich.
+
+Aufgabe 4
+---------
+Beim slt Befehl wird der Wert von rt von rs subtrahiert und dann überprüft
+ob das Resultat kleiner als 0 ist. Falls dies der Fall ist, ergibt diese
+Vergleichsoperation den Wert 1 und sonst 0.
+... Unerstütung durch die ALU ... ?
