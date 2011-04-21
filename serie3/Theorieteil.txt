@@ -25,7 +25,7 @@ Aufgabe 4
 Beim slt Befehl wird der Wert von rt von rs subtrahiert und dann überprüft
 ob das Resultat kleiner als 0 ist. Falls dies der Fall ist, ergibt diese
 Vergleichsoperation den Wert 1 und sonst 0.
-... Unerstütung durch die ALU ... ?
+... Unterstütung durch die ALU ... ?
 
 
 Aufgabe 5
@@ -48,5 +48,26 @@ C1:=Erste hälfte C2:=zweite Hälfte
 
 Bsp: 0x0123abcd => 	lui  $r1, 0x123
 			ori  $r1, R1, 0xabcd
+
 Aufgabe 7
 ---------
+
+		and	or	add	subtract	slt	nor
+
+a invert	0	0	0	0	0	0	1
+b invert	0	0	0	1	1	1	1
+
+opcode		00	01	10	10	10	11	00
+
+AND:
+a AND b =1 <=>  a = b = 1. Müssen nicht negiert werden.
+
+OR:
+a OR b = 1  a=1 oder b=1, a und b bleiben unverändert.
+
+ADD
+
+SUBTRACT: a bleibt gleich, b wird nedigert. Dann werden der 
+
+NOR:	-> de Morgan !(a OR b) = !a AND !b
+	a und b werdne negiert, dann wird ein AND ausgeführt
