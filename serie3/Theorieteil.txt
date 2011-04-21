@@ -26,3 +26,27 @@ Beim slt Befehl wird der Wert von rt von rs subtrahiert und dann überprüft
 ob das Resultat kleiner als 0 ist. Falls dies der Fall ist, ergibt diese
 Vergleichsoperation den Wert 1 und sonst 0.
 ... Unerstütung durch die ALU ... ?
+
+
+Aufgabe 5
+----------
+pop:			push
+addi, $sp, $sp, -4	lw $t0, 0($sp)
+sw $t0,0($sp)		addi $sp, $sp1
+
+
+Aufgabe 6
+---------
+Ist nicht möglich mit nur einem Befehl (32-Bit Konstante) -> Kein Platz
+für den OpCode.
+
+2nd Befehle:
+	lui, $r1, c1
+	ori, $r1, c2
+
+C1:=Erste hälfte C2:=zweite Hälfte
+
+Bsp: 0x0123abcd => 	lui  $r1, 0x123
+			ori  $r1, R1, 0xabcd
+Aufgabe 7
+---------

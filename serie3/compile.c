@@ -12,25 +12,19 @@
 #include "compiler.h"
  
 int main ( int argc, char** argv ) {
-   	int i;
 	int count;
 	count = argc;
 	count = count-1;
 
-	if (count<2){
-		printf("usage: <commandName> expression filename\n");
-		return EXIT_FAILURE;
-	}
-
-	if (count>2){
-		printf("usage: <commandName> expression filename\n");
-		return EXIT_FAILURE;
+	if (count == 2){
+		printf("Input: %s\n", argv[1]);
+                compiler(argv[1], argv[2]);
+		return EXIT_SUCCESS;
 	}
 
 	else {
-		printf("Input: %s\n", argv[1]);
-		compiler(argv[1], argv[2]);
-		return EXIT_SUCCESS;
-	}
+		printf("usage: <commandName> expression filename\n");
+		return EXIT_FAILURE;
+        }
 }
 
