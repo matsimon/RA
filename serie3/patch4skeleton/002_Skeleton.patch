@@ -1,0 +1,169 @@
+diff --git a/serie3/Makefile b/serie3/Makefile
+index 61c5dd4..88daaf1 100644
+--- a/serie3/Makefile
++++ b/serie3/Makefile
+@@ -1,5 +1,5 @@
+ CC      = gcc
+-CFLAGS  = -std=c99 -pedantic -Wall
++CFLAGS  = -std=c99 -pedantic -Wall -m32
+ 
+ OBJ = mips.o compiler.o memory.o
+ 
+diff --git a/serie3/compile.c b/serie3/compile.c
+index 6143967..a54e573 100644
+--- a/serie3/compile.c
++++ b/serie3/compile.c
+@@ -1,8 +1,7 @@
+-/* TODO: Task (b) Please fill in the following lines, then remove this line.
+- *
+- * author(s):   FIRSTNAME LASTNAME 
+- *              (FIRSTNAME2 LASTNAME2)
+- * modified:    2010-01-07
++/* 
++ * author(s):   Mathieu Simon
++ *              Thomas Rickenbach
++ * modified:    2011-04-20
+  *
+  */
+ 
+@@ -13,7 +12,28 @@
+ #include "compiler.h"
+  
+ int main ( int argc, char** argv ) {
+-    /* TODO: Task (c) implement main */
+-    return EXIT_SUCCESS;
++	int count;
++	count = argc;
++	count = count-1;
++
++	verbose = TRUE;
++
++	if (count == 2){
++		if (verbose){
++			printf("Input:    %s\n",argv[1]);
++			printf("Postfix:  ");
++		}
++
++                compiler(argv[1], argv[2]);
++		
++		if (verbose) 
++			printf("\nMIPS binary saved to %s\n",argv[2]);
++		return EXIT_SUCCESS;
++	}
++
++	else {
++		printf("usage: <commandName> expression filename\n");
++		return EXIT_FAILURE;
++        }
+ }
+ 
+diff --git a/serie3/compiler.c b/serie3/compiler.c
+index 4f2e8f3..f0fcfb8 100644
+--- a/serie3/compiler.c
++++ b/serie3/compiler.c
+@@ -4,6 +4,7 @@
+ #include "memory.h"
+ #include "mips.h"
+ #include "compiler.h"
++#include "stdbool.h"
+ 
+ /* The file we store the compiled code in */
+ FILE* file;
+@@ -218,6 +219,7 @@ void compiler(char* exp, char *filename) {
+     currentToken=tokens;
+     expression();
+     store(create_jtype_hex(0x000000,OC_STOP));
++
+     if (verbose) {
+         printf("%s\n", postfix);
+     }
+diff --git a/serie3/memory.c b/serie3/memory.c
+index 875bac0..4baaab5 100644
+--- a/serie3/memory.c
++++ b/serie3/memory.c
+@@ -1,8 +1,7 @@
+-/* TODO: Task (b) Please fill in the following lines, then remove this line.
+- *
+- * author(s):   FIRSTNAME LASTNAME 
+- *              (FIRSTNAME2 LASTNAME2)
+- * modified:    2010-01-07
++/*
++ * author(s):   Thomas Rickenbach
++ *              Mathieu Simon
++ * modified:    2011-04-20
+  *
+  */
+ 
+@@ -129,7 +128,24 @@ void initializeMemory() {
+ 
+ /* Load a file to memory */
+ void loadFile(char* filename) {
+-    /* TODO: Task (d) implement loadFile */
++    word location = 0;
++	word w;
++
++	byte buf[4];
++	FILE *file;
++	file = fopen(filename, "r");
++	while(!feof(file)) {
++
++		fread(buf, 1, 4, file);
++		w = 0;
++		w+= buf[3];
++		w+= (buf[2] << 1*8);
++		w+= (buf[1] << 2*8);
++		w+= (buf[0] << 3*8);
++		storeWord(w, location);
++		location += 4;
++	}
++	fclose(file);
+ }
+ 
+ /* ========================================================================== */
+diff --git a/serie3/mips.c b/serie3/mips.c
+index 3429044..48a4bf7 100644
+--- a/serie3/mips.c
++++ b/serie3/mips.c
+@@ -1,8 +1,7 @@
+-/* TODO: Task (b) Please fill in the following lines, then remove this line.
+- *
+- * author(s):   FIRSTNAME LASTNAME 
+- *              (FIRSTNAME2 LASTNAME2)
+- * modified:    2010-01-07
++/*
++ * author(s):   Thomas Rickenbach 
++ *              Mathieu Simon
++ * modified:    2011-04-21
+  *
+  */
+ 
+@@ -32,7 +31,13 @@ Function functions[FUNCTION_COUNT];
+ /* Some useful helpers */
+ 
+ void error(const char *functionName, const char *fileName, int lineNumber, char *message, ...) {
+-   /* TODO: Task (e) implement error */
++   	printf("%s in %s, line %i: ", functionName, fileName, lineNumber);
++	va_list args;
++	va_start(args,message);
++	vprintf(message,args);
++	va_end(args);
++	printf("\n");
++	exit(EXIT_FAILURE);
+ }
+ 
+ 
+diff --git a/serie3/test.c b/serie3/test.c
+index 02e3d8f..5e1f6a5 100644
+--- a/serie3/test.c
++++ b/serie3/test.c
+@@ -270,6 +270,9 @@ int main (int argc, const char * argv[]) {
+     execute_test(&test_printf_memory_write);
+     test_compiler("1+1", (1+1));
+     test_compiler("(3*(45+6))+12", ((3*(45+6))+12));
+-    test_compiler("5*( 4-3)  /(7- 5* (8+3/2))", (5*(4-3)/(7-5*(8+3/2))));        
++    test_compiler("5*( 4-3)  /(7- 5* (8+3/2))", (5*(4-3)/(7-5*(8+3/2))));
++    printf("A little bird told me to add this so I know if it really passed ;-)\n");
++    /*execute_test(&test_error);*/
++
+     return 0;
+ }
