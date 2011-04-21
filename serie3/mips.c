@@ -22,7 +22,7 @@ word pc;
 int doRun;
 
 /* In case you want to watch the machine working */
-int verbose = FALSE;
+int verbose = TRUE;
 
 /* Operation and function dispatcher */
 Operation operations[OPERATION_COUNT];
