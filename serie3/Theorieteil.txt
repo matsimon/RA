@@ -13,6 +13,12 @@ beträgt.
 
 Aufgabe 2
 --------
+* Rückkehradressen werden auf den Stack gespeichert, damit ist nach ausführen der
+  Subroutine bekannt, was auszuführen ist (Call stack)
+
+* Damit können lokale variablen über die Subroutine hinaus gespichert werden. Somit können
+  sichergestellten Variabeln in  anderne Subroutinen verwendet werden. Sie werden vom Stack aus
+  wieder  in ein Register geladen.
 
 
 Aufgabe 3
@@ -26,6 +32,7 @@ Beim slt Befehl wird der Wert von rt von rs subtrahiert und dann überprüft
 ob das Resultat kleiner als 0 ist. Falls dies der Fall ist, ergibt diese
 Vergleichsoperation den Wert 1 und sonst 0.
 ... Unterstütung durch die ALU ... ?
+?
 
 
 Aufgabe 5
@@ -49,6 +56,7 @@ C1:=Erste hälfte C2:=zweite Hälfte
 Bsp: 0x0123abcd => 	lui  $r1, 0x123
 			ori  $r1, R1, 0xabcd
 
+
 Aufgabe 7
 ---------
 
@@ -65,9 +73,11 @@ a AND b =1 <=>  a = b = 1. Müssen nicht negiert werden.
 OR:
 a OR b = 1  a=1 oder b=1, a und b bleiben unverändert.
 
-ADD
+ADD :		Der Adder in der ALU wird verwendet.
 
-SUBTRACT: a bleibt gleich, b wird nedigert. Dann werden der 
+SLT:		a und b werden subtrahier. Danach wird mit der "less"-Operation. 
+
+SUBTRACT: 	a bleibt gleich, b wird nedigert. Dann werden der 
 
 NOR:	-> de Morgan !(a OR b) = !a AND !b
 	a und b werdne negiert, dann wird ein AND ausgeführt
