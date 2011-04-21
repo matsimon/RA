@@ -17,7 +17,8 @@ int main ( int argc, char** argv ) {
 	count = count-1;
 
 	if (count == 2){
-		printf("Input: %s\n", argv[1]);
+		printf("Input:    %s\n",argv[1]);
+		printf("Postfix:  ");
                 compiler(argv[1], argv[2]);
 		return EXIT_SUCCESS;
 	}
