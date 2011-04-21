@@ -29,7 +29,7 @@ int main ( int argc, char** argv ) {
 
 	else {
 		printf("Input: %s\n", argv[1]);
-		//	system(./compile/* TODO: Task (c) implement main */
+		compiler(argv[1], argv[2]);
 		return EXIT_SUCCESS;
 	}
 }
