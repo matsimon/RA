@@ -16,6 +16,8 @@ int main ( int argc, char** argv ) {
 	count = argc;
 	count = count-1;
 
+	verbose = TRUE;
+
 	if (count == 2){
 		if (verbose){
 			printf("Input:    %s\n",argv[1]);

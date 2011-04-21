@@ -1,5 +1,4 @@
-/* TODO: Task (b) Please fill in the following lines, then remove this line.
- *
+/*
  * author(s):   Thomas Rickenbach 
  *              Mathieu Simon
  * modified:    2011-04-21
@@ -22,7 +21,7 @@ word pc;
 int doRun;
 
 /* In case you want to watch the machine working */
-int verbose = TRUE;
+int verbose = FALSE;
 
 /* Operation and function dispatcher */
 Operation operations[OPERATION_COUNT];
@@ -32,7 +31,13 @@ Function functions[FUNCTION_COUNT];
 /* Some useful helpers */
 
 void error(const char *functionName, const char *fileName, int lineNumber, char *message, ...) {
-   /* TODO: Task (e) implement error */
+   	printf("%s in %s, line %i: ", functionName, fileName, lineNumber);
+	va_list args;
+	va_start(args,message);
+	vprintf(message,args);
+	va_end(args);
+	printf("\n");
+	exit(EXIT_FAILURE);
 }
 
 

@@ -128,41 +128,24 @@ void initializeMemory() {
 
 /* Load a file to memory */
 void loadFile(char* filename) {
-	char *buffer;
-	unsigned long fileLen;
-	int i;
-   	word wo;
-	
-	/* Open file */
-	outputStream = fopen(filename, "rb");
-	if (!outputStream){
-		fprintf(stderr, "Unable to open file %s", filename);
-		return;
+    word location = 0;
+	word w;
+
+	byte buf[4];
+	FILE *file;
+	file = fopen(filename, "r");
+	while(!feof(file)) {
+
+		fread(buf, 1, 4, file);
+		w = 0;
+		w+= buf[3];
+		w+= (buf[2] << 1*8);
+		w+= (buf[1] << 2*8);
+		w+= (buf[0] << 3*8);
+		storeWord(w, location);
+		location += 4;
 	}
-
-	/* Detect file length */
-	fseek(outputStream, 0, SEEK_END);
-	fileLen=ftell(outputStream);
-	fseek(outputStream, 0, SEEK_SET);
-
-	buffer=(char *)malloc(fileLen+1);
-	if (!buffer){
-		fprintf(stderr, "Memory error!");
-                fclose(outputStream);
-		return;
-	}
-
-	/* Read file content in buffer */
-	fread(buffer, fileLen, 1, outputStream);
-	fclose(outputStream);
-
-	/* Cut buffer in single words to memory */
-	for (i=0; i<sizeof(buffer)-1; i++) {
-	        wo = (buffer[i] >> (8*(4-(i+1)))) & 0xFF;
-		storeWord(wo, memoryRegionCounter+i);
-    	}
-
-	free(buffer);
+	fclose(file);
 }
 
 /* ========================================================================== */

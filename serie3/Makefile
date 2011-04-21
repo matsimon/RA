@@ -1,5 +1,5 @@
 CC      = gcc
-CFLAGS  = -std=c99 -pedantic -Wall
+CFLAGS  = -std=c99 -pedantic -Wall -m32
 
 OBJ = mips.o compiler.o memory.o
 
