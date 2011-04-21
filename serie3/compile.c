@@ -17,10 +17,15 @@ int main ( int argc, char** argv ) {
 	count = count-1;
 
 	if (count == 2){
-		printf("Input:    %s\n",argv[1]);
-		printf("Postfix:  ");
+		if (verbose){
+			printf("Input:    %s\n",argv[1]);
+			printf("Postfix:  ");
+		}
+
                 compiler(argv[1], argv[2]);
-		printf("\nMIPS binary saved to %s\n",argv[2]);
+		
+		if (verbose) 
+			printf("\nMIPS binary saved to %s\n",argv[2]);
 		return EXIT_SUCCESS;
 	}
 
