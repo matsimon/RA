@@ -270,6 +270,9 @@ int main (int argc, const char * argv[]) {
     execute_test(&test_printf_memory_write);
     test_compiler("1+1", (1+1));
     test_compiler("(3*(45+6))+12", ((3*(45+6))+12));
-    test_compiler("5*( 4-3)  /(7- 5* (8+3/2))", (5*(4-3)/(7-5*(8+3/2))));        
+    test_compiler("5*( 4-3)  /(7- 5* (8+3/2))", (5*(4-3)/(7-5*(8+3/2))));
+    printf("A little bird told me to add this so I know if it really passed ;-)\n");
+    /*execute_test(&test_error);*/
+
     return 0;
 }
